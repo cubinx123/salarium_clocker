@@ -14,9 +14,11 @@ load_dotenv(dotenv_path)
 salarium_creds = {'email': os.environ.get("email"),
                   'password': os.environ.get("password")
                   }
+#Headless Browser                  
+op = webdriver.ChromeOptions()
+op.add_argument('headless')
 
-
-driver = webdriver.Chrome('chromedriver.exe')
+driver = webdriver.Chrome('chromedriver.exe',options=op)
 driver.get('https://app.salarium.com/users/login')
 time.sleep(5)
 
@@ -30,10 +32,14 @@ time.sleep(2)
 
 login_button = driver.find_element_by_class_name("btn-form-custom")
 login_button.submit()
-time.sleep(10)
+time.sleep(5)
 
-clock_button = driver.find_element_by_xpath("//div[@class='button-group']//button[@id='time_btn']")
-clock_button.click()
+# clock_button = driver.find_element_by_xpath("//div[@class='button-group']//button[@id='time_btn']")
+# clock_button.click()
+
+clock_button = driver.find_element_by_xpath("/html/body/div[2]/section/section/section/div[2]/div[1]/section[1]/div/div/div[2]/button")
+driver.execute_script("arguments[0].click();", clock_button)
+print("Clocked Successfully")
 time.sleep(2)
 driver.quit()
 
